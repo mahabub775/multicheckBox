@@ -1,0 +1,166 @@
+
+
+
+
+  <form [formGroup]="Dforms1to2Form" (submit)="submit(Dforms1to2Form.value)">
+    <div style="border-style: ridge;width:750px;padding-left: 5px;">
+              <table style="width:100%;">
+                <tr>
+                  <td style="width: 50%;"><strong>Upozila Name</strong> </td>
+                  <td style="width: 50%;text-align: left;"><strong>Total Unions</strong> </td>
+                </tr>
+                <tr>
+                  <td style="width: 50%;"><input type="text" id="txtUpazilaName" formControlName="UpazilaName"  disabled> </td>
+                  <td style="width: 50%;text-align: left"><input type="text" id="txtTotalUnions" formControlName ="TotalUnions"  disabled> </td>
+                </tr>
+                <tr>
+                  <td style="width: 50%;"><strong>Hazard Type:</strong> </td>
+                  <td style="width: 50%;text-align: left;"><strong>Date</strong> </td>
+                </tr>
+                <tr>
+                  <td style="width: 50%;">
+                    <mat-form-field class="full-width">
+                      <mat-label></mat-label>
+                      <mat-select formControlName="HazardTypeID" (selectionChange)="SetHazardType($event.value)" >
+                        <mat-option *ngFor="let d of hazardTypes" [value]="d.HazardTypeID">
+                          {{d.HazardTypeName}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> 
+                     </td>
+                  <td style="width: 50%;text-align: left">
+                    <mat-form-field>
+                      <mat-label>Choose a date</mat-label>
+                      <input matInput #ref [matDatepicker]="picker" formControlName="IssueDate" (dateChange)="Setdate('change', $event)">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker ></mat-datepicker>
+                    </mat-form-field>
+                    </td>
+                </tr>
+
+
+                <tr>
+                  <td style="width: 50%;"><strong>Affected Union</strong> </td>
+                  <td style="width: 50%;text-align: left;"><strong>Severly Affected</strong> </td>
+                </tr>
+                <tr>
+                  <td style="width: 50%;">
+                    <div *ngFor="let union of Tempunions; let i=index">
+                      <label>
+                        <input type="checkbox" [value]="union.UnionID" [id]="'chkun'+union.UnionID" [checked]="union.checked" (change)="onCheckboxUnionChange($event)" />
+                        {{union.UnionName}}
+                      </label>
+                    </div>
+
+                    <!-- <div *ngFor="let union of unions.controls; let i=index">
+                      <input type="checkbox" formControlName="union" [formControl]="union"/> {{LoadingData.unions[i].UnionName}}
+                    </div>                   -->
+                  </td>
+                  <td style="width: 50%;text-align:left">
+           
+                    <div *ngFor="let saunion of TempseverlyAffectedunions; let i=index">
+                      <label>
+                        <input type="checkbox" [value]="saunion.UnionID" [id]="'chkun'+saunion.UnionID" [checked]="saunion.checked" (change)="onCheckboxseverlyAffectedUnionChange($event)" />
+                        {{saunion.UnionName}}
+                      </label>
+                    </div>
+
+                    </td>
+                </tr>
+                 <tr>
+                  <td style="width: 50%;"><strong>Affected Puroshova</strong> </td>
+                  <td style="width: 50%;text-align: left;"><strong>Severly Affected</strong> </td>
+                </tr>
+                <tr>
+                  <td style="width: 50%;">
+                 
+                    <div *ngFor="let pouroshova of Temppourashavas; let i=index">
+                      <label>
+                        <input type="checkbox" [value]="pouroshova.UnionID" [id]="'chkun'+pouroshova.UnionID" [checked]="pouroshova.checked" (change)="onCheckboxPourashavaChange($event)" />
+                        {{pouroshova.UnionName}}
+                      </label>
+                    </div>
+                   </td>
+                  <td style="width: 50%;text-align: left">
+                    <div *ngFor="let sapouroshova of TempseverlyAffectedpourashavas; let i=index">
+                      <label>
+                        <input type="checkbox" [value]="sapouroshova.UnionID" [id]="'chkun'+sapouroshova.UnionID" [checked]="sapouroshova.checked" (change)="onCheckboxseverlyAffectedPourashavaChange($event)" />
+                        {{sapouroshova.UnionName}}
+                      </label>
+                    </div>
+                  </td>
+                </tr> 
+              </table>
+    </div>
+    <div class="button-row" align='end'>
+      <button mat-raised-button color="primary" type="submit" style="margin-left: 10px;text-align:right; ">Submit</button>
+  </div>
+    </form>  
+
+
+
+
+
+
+
+
+<!-- <form [formGroup]="Dforms1to2Form" (submit)="submit(Dforms1to2Form.value)">
+  <mat-grid-list cols="1" rowHeight="100px" >
+    <mat-grid-tile >
+      <div class="controles-container">
+        <mat-form-field class="full-width">
+          <mat-label>Upozila Name</mat-label>
+          <input type="text" matInput  formControlName="UpazilaName" disabled>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Select Hazard Type</mat-label>
+          <mat-select formControlName="HazardTypeID">
+            <mat-option *ngFor="let u of hazardTypes" [value]="u.HazardTypeID">
+              {{u.HazardTypeName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+            <label>Affected Union</label>
+            <div *ngFor="let union of unions.controls; let i=index">
+              <input type="checkbox" formControlName="union"/> {{LoadingData.unions[i].UnionName}}
+            </div>
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile >
+      <div class="controles-container">
+        <mat-form-field class="full-width">
+          <mat-label>Total Unions</mat-label>
+          <input type="text" matInput  formControlName="TotalUnions" disabled>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="IssueDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+          <mat-form-field class="full-width">
+          <mat-label>Severly Affected</mat-label>
+        <div *ngFor="let union of unions.controls; let i=index">
+          <input type="checkbox" [formControl]="union"/> {{LoadingData.unions[i].UnionName}}
+        </div>
+        </mat-form-field>
+      </div>
+    </mat-grid-tile> 
+    </mat-grid-list>
+  <div class="button-row" align='end'>
+    <button mat-raised-button color="primary" type="submit" style="margin-left: 10px;text-align:right; ">Submit</button>
+</div>
+ </form> -->
+
+
+
+
+
+
+
+
